@@ -108,18 +108,23 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         int id = v.getId();
         switch (id){
             case R.id.btn_payment_ThanhToan:
-                boolean ktraban = banAnDAO.CapNhatTinhTrangBan(maban,"false");
-                boolean ktradondat = donDatDAO.UpdateTThaiDonTheoMaBan(maban,"true");
-                boolean ktratongtien = donDatDAO.UpdateTongTienDonDat(madondat,String.valueOf(tongtien));
-                if(ktraban && ktradondat && ktratongtien && tongtien > 0){
-                    HienThiThanhToan();
-                    TXT_payment_TongTien.setText("0 VNĐ");
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK,intent);
-                    Toast.makeText(getApplicationContext(),"Thanh toán thành công!",Toast.LENGTH_SHORT);
-                    finish();
-                }else{
-                    Toast.makeText(getApplicationContext(),"Lỗi thanh toán!",Toast.LENGTH_SHORT);
+                if(tongtien > 0){
+                    boolean ktraban = banAnDAO.CapNhatTinhTrangBan(maban,"false");
+                    boolean ktradondat = donDatDAO.UpdateTThaiDonTheoMaBan(maban,"true");
+                    boolean ktratongtien = donDatDAO.UpdateTongTienDonDat(madondat,String.valueOf(tongtien));
+                    if(ktraban && ktradondat && ktratongtien){
+                        HienThiThanhToan();
+                        TXT_payment_TongTien.setText("0 VNĐ");
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK,intent);
+                        Toast.makeText(getApplicationContext(),"Thanh toán thành công!",Toast.LENGTH_SHORT);
+                        finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Lỗi thanh toán!",Toast.LENGTH_SHORT);
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Chưa có món ăn",Toast.LENGTH_SHORT).show();
                 }
                 break;
 

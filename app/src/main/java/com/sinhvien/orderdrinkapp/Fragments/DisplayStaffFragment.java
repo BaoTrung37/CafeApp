@@ -120,7 +120,7 @@ public class DisplayStaffFragment extends Fragment {
                 break;
 
             case R.id.itDelete:
-                if(maquyen == 1){
+                if(maquyen == 1 && manvSection != manv){
                     boolean ktra = nhanVienDAO.XoaNV(manv);
                     if(ktra){
                         HienThiDSNV();
