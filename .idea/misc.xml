@@ -15,8 +15,11 @@
         <entry key="..\:/Android/AppFood/app/src/main/res/layout/custom_layout_displaytable.xml" value="0.12158054711246201" />
         <entry key="..\:/Android/AppFood/app/src/main/res/layout/displaycategory_layout.xml" value="0.25" />
         <entry key="..\:/Android/AppFood/app/src/main/res/layout/displayhome_layout.xml" value="0.2" />
+        <entry key="..\:/Android/AppFood/app/src/main/res/layout/displaystatistic_layout.xml" value="0.25" />
         <entry key="..\:/Android/AppFood/app/src/main/res/layout/edittable_layout.xml" value="0.2105978260869565" />
+        <entry key="..\:/Android/AppFood/app/src/main/res/layout/payment_layout.xml" value="0.25" />
         <entry key="..\:/Android/AppFood/app/src/main/res/menu/edit_context_menu.xml" value="0.25" />
+        <entry key="..\:/Android/AppFood/app/src/main/res/menu/item_menu.xml" value="0.25" />
         <entry key="..\:/Android/AppFood/app/src/main/res/menu/main_menu_navigation.xml" value="0.25" />
       </map>
     </option>

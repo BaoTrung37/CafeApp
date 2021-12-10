@@ -27,22 +27,22 @@
             android:label="@string/addTable"
             android:theme="@style/PopUpActivity" />
         <activity android:name=".Activities.HomeActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.Register2ndActivity" />
         <activity android:name=".Activities.WelcomeActivity" />
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <meta-data

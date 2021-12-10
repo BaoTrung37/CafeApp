@@ -1,12 +1,22 @@
 package com.sinhvien.orderdrinkapp.Activities;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -15,6 +25,7 @@ import android.widget.Toast;
 
 import com.sinhvien.orderdrinkapp.CustomAdapter.AdapterDisplayPayment;
 import com.sinhvien.orderdrinkapp.DAO.BanAnDAO;
+import com.sinhvien.orderdrinkapp.DAO.ChiTietDonDatDAO;
 import com.sinhvien.orderdrinkapp.DAO.DonDatDAO;
 import com.sinhvien.orderdrinkapp.DAO.ThanhToanDAO;
 import com.sinhvien.orderdrinkapp.DTO.ThanhToanDTO;
@@ -24,7 +35,9 @@ import com.sinhvien.orderdrinkapp.R;
 
 import java.util.List;
 
-public class PaymentActivity extends AppCompatActivity implements View.OnClickListener {
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+
+public class PaymentActivity extends AppCompatActivity implements View.OnClickListener{
 
     ImageView IMG_payment_backbtn;
     TextView TXT_payment_TenBan, TXT_payment_NgayDat, TXT_payment_TongTien;
@@ -33,6 +46,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
     DonDatDAO donDatDAO;
     BanAnDAO banAnDAO;
     ThanhToanDAO thanhToanDAO;
+    ChiTietDonDatDAO chiTietDonDatDAO;
     List<ThanhToanDTO> thanhToanDTOS;
     AdapterDisplayPayment adapterDisplayPayment;
     long tongtien = 0;
@@ -57,6 +71,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         donDatDAO = new DonDatDAO(this);
         thanhToanDAO = new ThanhToanDAO(this);
         banAnDAO = new BanAnDAO(this);
+        chiTietDonDatDAO = new ChiTietDonDatDAO(this);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -84,6 +99,8 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
 
         BTN_payment_ThanhToan.setOnClickListener(this);
         IMG_payment_backbtn.setOnClickListener(this);
+
+        registerForContextMenu(gvDisplayPayment);
     }
 
     @Override
@@ -109,6 +126,35 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.edit_context_menu,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int vitri = menuInfo.position;
+        int mamon = thanhToanDTOS.get(vitri).getIdMon();
+        switch (id){
+            case R.id.itEdit:
+                break;
+            case R.id.itDelete:
+                boolean ktXoa = chiTietDonDatDAO.XoaMonChiTieTDonDat(madondat,mamon);
+                if(ktXoa){
+                    HienThiThanhToan();
+                    Toast.makeText(getApplicationContext(),"Xoá thành công!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Xóa bị lỗi!",Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
     //hiển thị data lên gridview
     private void HienThiThanhToan(){
         madondat = (int) donDatDAO.LayMaDonTheoMaBan(maban,"false");
@@ -117,4 +163,6 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         gvDisplayPayment.setAdapter(adapterDisplayPayment);
         adapterDisplayPayment.notifyDataSetChanged();
     }
+
+
 }

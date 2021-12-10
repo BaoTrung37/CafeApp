@@ -39,7 +39,17 @@ public class ChiTietDonDatDAO {
         }
         return soluong;
     }
-
+    public boolean XoaMonChiTieTDonDat(int madondat, int mamon){
+        long ktra = database.delete(CreateDatabase.TBL_CHITIETDONDAT,
+                CreateDatabase.TBL_CHITIETDONDAT_MAMON + " = ? and " +
+                CreateDatabase.TBL_CHITIETDONDAT_MADONDAT + " =?" ,
+                new String[]{String.valueOf(mamon), String.valueOf(madondat)});
+        if(ktra != 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
     public boolean CapNhatSL(ChiTietDonDatDTO chiTietDonDatDTO){
         ContentValues contentValues = new ContentValues();
         contentValues.put(CreateDatabase.TBL_CHITIETDONDAT_SOLUONG, chiTietDonDatDTO.getSoLuong());

@@ -128,7 +128,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_staff:
-                if(maquyen == 1){
+//                if(maquyen == 1){
                     //hiển thị tương ứng trên navigation
                     FragmentTransaction tranDisplayStaff = fragmentManager.beginTransaction();
                     DisplayStaffFragment displayStaffFragment = new DisplayStaffFragment();
@@ -136,9 +136,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     tranDisplayStaff.commit();
                     navigationView.setCheckedItem(item.getItemId());
                     drawerLayout.closeDrawers();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Bạn không có quyền truy cập",Toast.LENGTH_SHORT).show();
-                }
+//                }else {
+//                    Toast.makeText(getApplicationContext(),"Bạn không có quyền truy cập",Toast.LENGTH_SHORT).show();
+//                }
 
                 break;
 

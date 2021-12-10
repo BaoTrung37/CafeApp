@@ -1,9 +1,18 @@
 package com.sinhvien.orderdrinkapp.DTO;
 
 public class ThanhToanDTO {
+    int idMon;
     String TenMon;
     int SoLuong, GiaTien;
     byte[] HinhAnh;
+
+    public int getIdMon() {
+        return idMon;
+    }
+
+    public void setIdMon(int idMon) {
+        this.idMon = idMon;
+    }
 
     public String getTenMon() {
         return TenMon;

@@ -35,6 +35,8 @@ public class DonDatDAO {
         return madondat;
     }
 
+//    public boolean Xoa
+
     public List<DonDatDTO> LayDSDonDat(){
         List<DonDatDTO> donDatDTOS = new ArrayList<DonDatDTO>();
         String query = "SELECT * FROM "+CreateDatabase.TBL_DONDAT;

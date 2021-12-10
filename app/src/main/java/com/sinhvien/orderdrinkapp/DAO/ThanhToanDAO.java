@@ -18,7 +18,7 @@ public class ThanhToanDAO {
         database = createDatabase.open();
     }
 
-    public List<ThanhToanDTO> LayDSMonTheoMaDon(int madondat){
+    public List<ThanhToanDTO>LayDSMonTheoMaDon(int madondat){
         List<ThanhToanDTO> thanhToanDTOS = new ArrayList<ThanhToanDTO>();
         String query = "SELECT * FROM "+CreateDatabase.TBL_CHITIETDONDAT+" ctdd,"+CreateDatabase.TBL_MON+" mon WHERE "
                 +"ctdd."+CreateDatabase.TBL_CHITIETDONDAT_MAMON+" = mon."+CreateDatabase.TBL_MON_MAMON+" AND "
@@ -28,6 +28,7 @@ public class ThanhToanDAO {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
             ThanhToanDTO thanhToanDTO = new ThanhToanDTO();
+            thanhToanDTO.setIdMon(cursor.getInt(cursor.getColumnIndex(CreateDatabase.TBL_MON_MAMON)));
             thanhToanDTO.setSoLuong(cursor.getInt(cursor.getColumnIndex(CreateDatabase.TBL_CHITIETDONDAT_SOLUONG)));
             thanhToanDTO.setGiaTien(cursor.getInt(cursor.getColumnIndex(CreateDatabase.TBL_MON_GIATIEN)));
             thanhToanDTO.setTenMon(cursor.getString(cursor.getColumnIndex(CreateDatabase.TBL_MON_TENMON)));
@@ -39,4 +40,6 @@ public class ThanhToanDAO {
 
         return thanhToanDTOS;
     }
+
+
 }
