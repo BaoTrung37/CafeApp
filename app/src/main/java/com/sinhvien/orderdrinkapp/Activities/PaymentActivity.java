@@ -111,10 +111,13 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
                 boolean ktraban = banAnDAO.CapNhatTinhTrangBan(maban,"false");
                 boolean ktradondat = donDatDAO.UpdateTThaiDonTheoMaBan(maban,"true");
                 boolean ktratongtien = donDatDAO.UpdateTongTienDonDat(madondat,String.valueOf(tongtien));
-                if(ktraban && ktradondat && ktratongtien){
+                if(ktraban && ktradondat && ktratongtien && tongtien > 0){
                     HienThiThanhToan();
                     TXT_payment_TongTien.setText("0 VNĐ");
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK,intent);
                     Toast.makeText(getApplicationContext(),"Thanh toán thành công!",Toast.LENGTH_SHORT);
+                    finish();
                 }else{
                     Toast.makeText(getApplicationContext(),"Lỗi thanh toán!",Toast.LENGTH_SHORT);
                 }

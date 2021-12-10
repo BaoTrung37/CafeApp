@@ -17,6 +17,7 @@ import com.sinhvien.orderdrinkapp.R;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterDisplayStatistic extends BaseAdapter {
@@ -24,16 +25,18 @@ public class AdapterDisplayStatistic extends BaseAdapter {
     Context context;
     int layout;
     List<DonDatDTO> donDatDTOS;
+    List<DonDatDTO> donDatDTOSold;
     ViewHolder viewHolder;
     NhanVienDAO nhanVienDAO;
     BanAnDAO banAnDAO;
 
-    public AdapterDisplayStatistic(Context context, int layout, List<DonDatDTO> donDatDTOS){
+    public AdapterDisplayStatistic(Context context, int layout, List<DonDatDTO> donDatDTOSold){
         this.context = context;
         this.layout = layout;
-        this.donDatDTOS = donDatDTOS;
+        this.donDatDTOSold = donDatDTOSold;
         nhanVienDAO = new NhanVienDAO(context);
         banAnDAO = new BanAnDAO(context);
+        getDonDatThanhCong(donDatDTOSold);
     }
 
     @Override
@@ -70,25 +73,31 @@ public class AdapterDisplayStatistic extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         DonDatDTO donDatDTO = donDatDTOS.get(position);
+        if (donDatDTO.getTinhTrang().equals("true")) {
+            viewHolder.txt_customstatistic_MaDon.setText("Mã đơn: " + donDatDTO.getMaDonDat());
+            viewHolder.txt_customstatistic_NgayDat.setText(donDatDTO.getNgayDat());
+            viewHolder.txt_customstatistic_TongTien.setText(donDatDTO.getTongTien() + " VNĐ");
 
-        viewHolder.txt_customstatistic_MaDon.setText("Mã đơn: "+donDatDTO.getMaDonDat());
-        viewHolder.txt_customstatistic_NgayDat.setText(donDatDTO.getNgayDat());
-        viewHolder.txt_customstatistic_TongTien.setText(donDatDTO.getTongTien()+" VNĐ");
-        if (donDatDTO.getTinhTrang().equals("true"))
-        {
             viewHolder.txt_customstatistic_TrangThai.setText("Đã thanh toán");
-        }else {
-            viewHolder.txt_customstatistic_TrangThai.setText("Chưa thanh toán");
-        }
-        NhanVienDTO nhanVienDTO = nhanVienDAO.LayNVTheoMa(donDatDTO.getMaNV());
-        viewHolder.txt_customstatistic_TenNV.setText(nhanVienDTO.getHOTENNV());
-        viewHolder.txt_customstatistic_BanDat.setText(banAnDAO.LayTenBanTheoMa(donDatDTO.getMaBan()));
 
+            NhanVienDTO nhanVienDTO = nhanVienDAO.LayNVTheoMa(donDatDTO.getMaNV());
+            viewHolder.txt_customstatistic_TenNV.setText(nhanVienDTO.getHOTENNV());
+            viewHolder.txt_customstatistic_BanDat.setText(banAnDAO.LayTenBanTheoMa(donDatDTO.getMaBan()));
+        }
         return view;
     }
     public class ViewHolder{
         TextView txt_customstatistic_MaDon, txt_customstatistic_NgayDat, txt_customstatistic_TenNV
                 ,txt_customstatistic_TongTien,txt_customstatistic_TrangThai, txt_customstatistic_BanDat;
 
+    }
+    private void getDonDatThanhCong(List<DonDatDTO> listoll){
+
+        donDatDTOS = new ArrayList<>();
+        for (DonDatDTO datDTO: listoll) {
+            if(datDTO.getTinhTrang().equals("true")){
+                donDatDTOS.add(datDTO);
+            }
+        }
     }
 }

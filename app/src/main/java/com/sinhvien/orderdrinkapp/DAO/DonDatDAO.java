@@ -106,7 +106,8 @@ public class DonDatDAO {
     public boolean UpdateTThaiDonTheoMaBan(int maban,String tinhtrang){
         ContentValues contentValues = new ContentValues();
         contentValues.put(CreateDatabase.TBL_DONDAT_TINHTRANG,tinhtrang);
-        long ktra = database.update(CreateDatabase.TBL_DONDAT,contentValues,CreateDatabase.TBL_DONDAT_MABAN+
+        long ktra = database.update(CreateDatabase.TBL_DONDAT,contentValues,
+                CreateDatabase.TBL_DONDAT_MABAN+
                 " = '"+maban+"'",null);
         if(ktra !=0){
             return true;

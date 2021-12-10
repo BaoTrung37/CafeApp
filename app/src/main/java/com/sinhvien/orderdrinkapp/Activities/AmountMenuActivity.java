@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.sinhvien.orderdrinkapp.DAO.BanAnDAO;
 import com.sinhvien.orderdrinkapp.DAO.ChiTietDonDatDAO;
 import com.sinhvien.orderdrinkapp.DAO.DonDatDAO;
 import com.sinhvien.orderdrinkapp.DTO.ChiTietDonDatDTO;
@@ -20,6 +21,7 @@ public class AmountMenuActivity extends AppCompatActivity {
     Button BTN_amountmenu_DongY;
     int maban, mamon;
     DonDatDAO donDatDAO;
+    BanAnDAO banAnDAO;
     ChiTietDonDatDAO chiTietDonDatDAO;
 
     @Override
@@ -33,6 +35,7 @@ public class AmountMenuActivity extends AppCompatActivity {
 
         //khởi tạo kết nối csdl
         donDatDAO = new DonDatDAO(this);
+        banAnDAO = new BanAnDAO(this);
         chiTietDonDatDAO = new ChiTietDonDatDAO(this);
 
         //Lấy thông tin từ bàn được chọn
@@ -48,6 +51,7 @@ public class AmountMenuActivity extends AppCompatActivity {
                 }
 
                 int madondat = (int) donDatDAO.LayMaDonTheoMaBan(maban,"false");
+                banAnDAO.CapNhatTinhTrangBan(maban,"true");
                 boolean ktra = chiTietDonDatDAO.KiemTraMonTonTai(madondat,mamon);
                 if(ktra){
                     //update số lượng món đã chọn
@@ -62,6 +66,7 @@ public class AmountMenuActivity extends AppCompatActivity {
 
                     boolean ktracapnhat = chiTietDonDatDAO.CapNhatSL(chiTietDonDatDTO);
                     if(ktracapnhat){
+                        finish();
                         Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_sucessful),Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_failed),Toast.LENGTH_SHORT).show();

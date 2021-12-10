@@ -154,7 +154,7 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
                     donDatDTO.setTongTien("0");
 
                     long ktra = donDatDAO.ThemDonDat(donDatDTO);
-                    banAnDAO.CapNhatTinhTrangBan(maban,"true");
+//                    banAnDAO.CapNhatTinhTrangBan(maban,"true");
                     if(ktra == 0){ Toast.makeText(context,context.getResources().getString(R.string.add_failed),Toast.LENGTH_SHORT).show(); }
                 }
                 //chuyển qua trang category

@@ -89,7 +89,9 @@ public class BanAnDAO {
         ContentValues contentValues = new ContentValues();
         contentValues.put(CreateDatabase.TBL_BAN_TINHTRANG,tinhtrang);
 
-        long ktra = database.update(CreateDatabase.TBL_BAN,contentValues,CreateDatabase.TBL_BAN_MABAN+ " = '"+maban+"' ",null);
+        long ktra = database.update(CreateDatabase.TBL_BAN,
+                contentValues,CreateDatabase.TBL_BAN_MABAN+ " = '"+maban+"' "
+                ,null);
         if(ktra != 0){
             return true;
         }else {

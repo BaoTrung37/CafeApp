@@ -53,11 +53,11 @@ public class DisplayTableFragment extends Fragment {
                         Intent intent = result.getData();
                         boolean ktra = intent.getBooleanExtra("ketquathem",false);
                         if(ktra){
-                            HienThiDSBan();
                             Toast.makeText(getActivity(),"Thêm thành công",Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(getActivity(),"Thêm thất bại",Toast.LENGTH_SHORT).show();
                         }
+                        HienThiDSBan();
                     }
                 }
             });

@@ -1,7 +1,9 @@
 package com.sinhvien.orderdrinkapp.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -38,6 +40,9 @@ public class DisplayStaffFragment extends Fragment {
     NhanVienDAO nhanVienDAO;
     List<NhanVienDTO> nhanVienDTOS;
     AdapterDisplayStaff adapterDisplayStaff;
+    int maquyen = 0;
+    int manvSection = 0;
+    SharedPreferences sharedPreferences;
 
     ActivityResultLauncher<Intent> resultLauncherAdd = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -81,6 +86,10 @@ public class DisplayStaffFragment extends Fragment {
 
         registerForContextMenu(gvStaff);
 
+        // lấy file phân quyền
+        sharedPreferences = getActivity().getSharedPreferences("luuquyen", Context.MODE_PRIVATE);
+        maquyen = sharedPreferences.getInt("maquyen",0);
+        manvSection = sharedPreferences.getInt("manv",0);
         return view;
     }
 
@@ -99,20 +108,31 @@ public class DisplayStaffFragment extends Fragment {
 
         switch (id){
             case R.id.itEdit:
-                Intent iEdit = new Intent(getActivity(),AddStaffActivity.class);
-                iEdit.putExtra("manv",manv);
-                resultLauncherAdd.launch(iEdit);
+                if(maquyen == 1 || manvSection == manv){
+                    Intent iEdit = new Intent(getActivity(),AddStaffActivity.class);
+                    iEdit.putExtra("manv",manv);
+                    resultLauncherAdd.launch(iEdit);
+                }
+                else{
+                    Toast.makeText(getActivity(),"Bạn không có quyền sửa",Toast.LENGTH_SHORT).show();
+                }
+
                 break;
 
             case R.id.itDelete:
-                boolean ktra = nhanVienDAO.XoaNV(manv);
-                if(ktra){
-                    HienThiDSNV();
-                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful)
-                            ,Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_failed)
-                            ,Toast.LENGTH_SHORT).show();
+                if(maquyen == 1){
+                    boolean ktra = nhanVienDAO.XoaNV(manv);
+                    if(ktra){
+                        HienThiDSNV();
+                        Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful)
+                                ,Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_failed)
+                                ,Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getActivity(),"Bạn không có quyền xóa",Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -133,8 +153,13 @@ public class DisplayStaffFragment extends Fragment {
         int id = item.getItemId();
         switch (id){
             case R.id.itAddStaff:
-                Intent iDangky = new Intent(getActivity(), AddStaffActivity.class);
-                resultLauncherAdd.launch(iDangky);
+                if(maquyen == 1){
+                    Intent iDangky = new Intent(getActivity(), AddStaffActivity.class);
+                    resultLauncherAdd.launch(iDangky);
+                }
+                else{
+                    Toast.makeText(getActivity(),"Bạn không có quyền thêm",Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

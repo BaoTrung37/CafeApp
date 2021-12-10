@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences sharedPreferences = getSharedPreferences("luuquyen", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor =sharedPreferences.edit();
                     editor.putInt("maquyen",maquyen);
+                    editor.putInt("manv",ktra);
                     editor.commit();
 
                     //gửi dữ liệu user qua trang chủ
