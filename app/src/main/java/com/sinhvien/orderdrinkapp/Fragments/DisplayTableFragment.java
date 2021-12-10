@@ -1,7 +1,9 @@
 package com.sinhvien.orderdrinkapp.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -38,6 +40,9 @@ public class DisplayTableFragment extends Fragment {
     List<BanAnDTO> banAnDTOList;
     BanAnDAO banAnDAO;
     AdapterDisplayTable adapterDisplayTable;
+
+    int maquyen = 0;
+    SharedPreferences sharedPreferences;
 
     //Dùng activity result (activityforresult ko hổ trợ nữa) để nhận data gửi từ activity addtable
     ActivityResultLauncher<Intent> resultLauncherAdd = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -82,7 +87,9 @@ public class DisplayTableFragment extends Fragment {
 
         GVDisplayTable = (GridView)view.findViewById(R.id.gvDisplayTable);
         banAnDAO = new BanAnDAO(getActivity());
-
+        // lấy file share mã quyền
+        sharedPreferences = getActivity().getSharedPreferences("luuquyen", Context.MODE_PRIVATE);
+        maquyen = sharedPreferences.getInt("maquyen",0);
         HienThiDSBan();
 
         registerForContextMenu(GVDisplayTable);
@@ -104,19 +111,31 @@ public class DisplayTableFragment extends Fragment {
         int vitri = menuInfo.position;
         int maban = banAnDTOList.get(vitri).getMaBan();
         switch(id){
+            // check quyen
             case R.id.itEdit:
-                Intent intent = new Intent(getActivity(), EditTableActivity.class);
-                intent.putExtra("maban",maban);
-                resultLauncherEdit.launch(intent);
+                if(maquyen == 1){
+                    Intent intent = new Intent(getActivity(), EditTableActivity.class);
+                    intent.putExtra("maban",maban);
+                    resultLauncherEdit.launch(intent);
+                }
+                else{
+                    Toast.makeText(getActivity().getApplicationContext(),"Bạn không có quyền sửa",Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.itDelete:
-                boolean ktraxoa = banAnDAO.XoaBanTheoMa(maban);
-                if(ktraxoa){
-                    HienThiDSBan();
-                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful),Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_failed),Toast.LENGTH_SHORT).show();
+                // check quyen
+                if(maquyen == 1){
+                    boolean ktraxoa = banAnDAO.XoaBanTheoMa(maban);
+                    if(ktraxoa){
+                        HienThiDSBan();
+                        Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful),Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_failed),Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getActivity().getApplicationContext(),"Bạn không có quyền xóa",Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
